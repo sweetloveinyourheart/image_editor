@@ -1,0 +1,52 @@
+version: '3.8'
+services:
+  next-app:
+    image: next
+    container_name: next
+    build: 
+      context: next-app
+      dockerfile: Dockerfile
+  
+    ports:
+      - 3000:3000
+
+    networks:
+      - shared-networks
+
+  nest-server:
+    image: nest
+    container_name: nest
+    build: 
+      context: nest-server
+      dockerfile: Dockerfile
+
+    volumes:
+      - ./images/uploads:/nest/images/uploads
+      - ./images/downloads:/nest/images/downloads
+
+
+    ports:
+      - 9000:9000
+
+    networks:
+      - shared-networks
+
+  fastapi-server:
+    image: fastapi
+    container_name: fastapi
+    build: 
+      context: fastapi-server
+      dockerfile: Dockerfile
+
+    volumes:
+      - ./images/uploads:/nest/images/uploads
+      - ./images/downloads:/nest/images/downloads
+
+    ports:
+      - 8000:8000
+
+    networks:
+      - shared-networks
+
+networks:
+  shared-networks:
